@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { formatTweet, formatDate } from '../utils/helpers'
 import { handleToggleTweet } from '../actions/tweets'
+import { Link , withRouter } from 'react-router-dom'
 
 import {TiArrowBackOutline} from 'react-icons/ti'
 import {TiHeartOutline} from 'react-icons/ti'
@@ -21,7 +22,7 @@ class Tweet extends React.Component{
     }
     toParent = (e,id) => {
         e.preventDefault()
-        //todo : redirect to parent tweet.
+        this.props.history.push(`/tweet/${id}`)
     }
 
     render(){
@@ -35,7 +36,7 @@ class Tweet extends React.Component{
             name, avatar, timestamp, text, hasLiked, likes, replies, id, parent
         } = tweet
         return (          
-            <div className="tweet">
+            <Link to={`/tweet/${id}`} className="tweet">
                 <img 
                 src={avatar} 
                 alt={'Avatar of ${name}'}
@@ -65,7 +66,7 @@ class Tweet extends React.Component{
                         <span>{likes !== 0 && likes}</span>
                     </div>                    
                 </div>
-            </div>
+            </Link>
 
         )
     }
@@ -95,4 +96,4 @@ function mapStateToProps({authedUser, tweets, users}, {id}){
     }
 }
 
-export default connect(mapStateToProps)(Tweet)
+export default withRouter(connect(mapStateToProps)(Tweet))
